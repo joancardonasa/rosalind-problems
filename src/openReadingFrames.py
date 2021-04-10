@@ -42,11 +42,14 @@ def open_read_frames(fasta_file, format_print = False):
     all_cand_prot = []
     for strand in [dna_strand, dna_strand_rev]:
         candidate_dna = [g[0] for g in re.findall(pattern, strand, overlapped = True)]
+        if format_print:
+            print(candidate_dna)
         candidate_prot = [translate_dna_to_prot(cand) for cand in candidate_dna]
         all_cand_prot = list(set(all_cand_prot + candidate_prot))
 
     if format_print:
         print('\n'.join(all_cand_prot))
+        [print(len(cand)) for cand in all_cand_prot]
 
     return all_cand_prot
 
@@ -55,3 +58,6 @@ def translate_dna_to_prot(dna):
     protein_string = ''.join([dna_codon[triplet] for triplet in triplets])
 
     return protein_string
+
+
+open_read_frames('data/orf_globin.fas', format_print = True)
